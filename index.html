@@ -131,7 +131,7 @@
 
       <div class="solutions__intro">
         <p class="eyebrow">Nossas soluções <i></i></p>
-        <h2 class="section-title">Desenvolvimento<br>com propósito.</h2>
+        <h2 class="section-title">Desenvolvimento com propósito.</h2>
         <p class="section-text">
           Criamos sistemas que se adaptam à sua realidade, com foco em performance,
           segurança e experiência do usuário.
@@ -254,18 +254,54 @@
 
   <!-- ============================= PROJETOS ============================= -->
   <section class="projects" id="projetos">
-    <div class="container">
+    <div class="container projects__head">
       <p class="eyebrow">Projetos <i></i></p>
       <h2 class="section-title">Trabalhos concluídos.</h2>
+    </div>
 
-      <div class="projects__list">
-        <a class="project" href="https://tourbyfood.com" target="_blank" rel="noopener">
-          <span class="project__name">TourByFood.com</span>
-          <svg class="project__go" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M7 17 17 7M9 7h8v8"/>
-          </svg>
-        </a>
+    <!-- Lâminas anguladas. Para cada novo projeto, repita o bloco .blade
+         e ajuste o número em .blade__num. -->
+    <div class="blades">
+
+      <a class="blade" href="https://www.tourbyfoot.com/" target="_blank" rel="noopener">
+        <span class="blade__photo" aria-hidden="true"></span>
+        <span class="blade__veil" aria-hidden="true"></span>
+        <span class="blade__body">
+          <span class="blade__num">01</span>
+          <span class="blade__name">TourByFoot.com</span>
+          <span class="blade__tags">
+            <!-- Soluções aplicadas neste projeto. -->
+          </span>
+          <span class="blade__go">
+            Visitar o site
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </span>
+        </span>
+      </a>
+
+      <!-- Ao receber o projeto, troque a div por <a class="blade" href="..."
+           target="_blank" rel="noopener">, ponha o nome em .blade__name e
+           devolva o bloco .blade__go. -->
+      <div class="blade blade--vazio">
+        <span class="blade__photo" aria-hidden="true"></span>
+        <span class="blade__veil" aria-hidden="true"></span>
+        <span class="blade__body">
+          <span class="blade__num">02</span>
+          <span class="blade__name">Projeto a definir</span>
+          <span class="blade__tags"></span>
+        </span>
       </div>
+
+      <div class="blade blade--vazio">
+        <span class="blade__photo" aria-hidden="true"></span>
+        <span class="blade__veil" aria-hidden="true"></span>
+        <span class="blade__body">
+          <span class="blade__num">03</span>
+          <span class="blade__name">Projeto a definir</span>
+          <span class="blade__tags"></span>
+        </span>
+      </div>
+
     </div>
   </section>
 
@@ -275,7 +311,7 @@
 
       <div class="about__intro">
         <p class="eyebrow">Quem somos <i></i></p>
-        <h2 class="section-title">Tecnologia e pessoas<br>trabalhando juntas.</h2>
+        <h2 class="section-title">Tecnologia e pessoas trabalhando juntas.</h2>
         <p class="about__text">
           A Exksvol Systems é movida por desafios. Acreditamos que a tecnologia é uma
           ferramenta poderosa quando aliada a um atendimento próximo, transparente e

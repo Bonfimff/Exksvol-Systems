@@ -18,6 +18,19 @@
   --paper-2:#F4F8F7;
   --line:#E2EAE8;
 
+  /* azul escuro do painel do topo */
+  --panel:#0A1B2A;
+  --panel-rgb:10,27,42;
+
+  /* turquesa dessaturado, para os enfeites que se repetem muito */
+  --quiet:#7C918D;
+  --quiet-dark:#7E9C97;
+
+  /* rampa de cinzas das lâminas de projeto */
+  --slate-1:#3A4145;
+  --slate-2:#4E565B;
+  --slate-3:#646C71;
+
   /* medida */
   /* A referência mantém o conteúdo em ~88% da largura, com margem de ~6,2%. */
   --container:1280px;
@@ -249,18 +262,18 @@ a:focus-visible,button:focus-visible{
    sempre dentro de 75% da largura. */
 .hero{
   position:relative;
-  background:var(--dark);
+  background:var(--panel);
   display:block;
 }
 .visual--hero{position:absolute;inset:0;min-height:0;z-index:0}
-/* véu escuro sobre a foto para o texto continuar legível */
+/* véu azul escuro sobre a foto para o texto continuar legível */
 .visual--hero::after{
   content:"";position:absolute;inset:0;z-index:1;
   background:linear-gradient(90deg,
-    rgba(10,32,30,.97) 0%,
-    rgba(10,32,30,.93) 40%,
-    rgba(10,32,30,.6) 72%,
-    rgba(10,32,30,.28) 100%);
+    rgba(var(--panel-rgb),.96) 0%,
+    rgba(var(--panel-rgb),.92) 40%,
+    rgba(var(--panel-rgb),.58) 72%,
+    rgba(var(--panel-rgb),.26) 100%);
 }
 .hero__copy{
   position:relative;z-index:2;
@@ -336,25 +349,117 @@ a:focus-visible,button:focus-visible{
 .step__title{color:#FFF;font-size:15.5px;font-weight:700;margin-bottom:5px}
 .step__text{color:var(--dark-body);font-size:14px;line-height:1.6}
 
-/* ---------- 10. Projetos ---------- */
-.projects{background:var(--paper);padding:38px 0 34px}
+/* ---------- 10. Projetos: lâminas anguladas ----------
+   Cada projeto é uma lâmina inclinada. O corpo recebe a inclinação
+   inversa para o texto continuar reto. */
+.projects{background:var(--paper);padding:38px 0 0}
 .projects .section-title{font-size:clamp(23px,2.3vw,32px)}
-.projects__list{display:grid;gap:12px;margin-top:24px}
-.project{
-  display:flex;align-items:center;justify-content:space-between;gap:20px;
-  padding:20px 22px;
-  border:1px solid var(--line);border-radius:var(--radius);
-  color:var(--ink);
-  transition:border-color .16s ease,transform .16s ease,box-shadow .16s ease;
+.projects__head{margin-bottom:28px}
+
+/* As lâminas se sobrepõem: cada uma passa por cima da seguinte, e a
+   sombra na borda esquerda revela a camada de baixo. */
+.blades{display:flex;gap:0;overflow:hidden}
+.blade{
+  position:relative;
+  flex:1 1 0;
+  min-height:330px;
+  overflow:hidden;
+  transform:skewX(-11deg);
+  background:var(--slate-1);
+  color:#FFF;
+  /* a sombra na borda esquerda é o que faz a sobreposição virar profundidade */
+  box-shadow:-24px 0 40px rgba(0,0,0,.55), -6px 0 14px rgba(0,0,0,.45);
+  border-left:1px solid rgba(255,255,255,.07);
+  transition:flex-grow .32s ease;
 }
-.project:hover{
-  border-color:var(--teal);
-  transform:translateY(-2px);
-  box-shadow:0 10px 26px rgba(13,31,30,.06);
+.blade + .blade{margin-left:-48px}
+/* o texto da lâmina de baixo começa depois do trecho encoberto */
+.blade + .blade .blade__body{padding-left:70px}
+
+/* rampa de cinzas: a primeira usa o azul da marca, as seguintes clareiam */
+.blade:nth-child(1){background:var(--panel);z-index:4}
+.blade:nth-child(2){background:var(--slate-1);z-index:3}
+.blade:nth-child(3){background:var(--slate-2);z-index:2}
+.blade:nth-child(4){background:var(--slate-3);z-index:1}
+/* Com um projeto só, a lâmina ocupa parte da faixa para as diagonais
+   aparecerem. A partir do segundo, elas voltam a dividir a linha. */
+.blade:only-child{flex:0 0 auto;width:min(54%,600px)}
+
+.blade__photo{
+  position:absolute;inset:0;
+  transform:skewX(11deg) scale(1.25);
+  background-size:cover;background-position:center;
+  transition:transform .4s ease;
 }
-.project__name{font-size:16.5px;font-weight:700}
-.project__go{width:18px;height:18px;flex:none}
-.project__go path{fill:none;stroke:var(--teal-2);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* véu neutro, para não tingir os cinzas */
+.blade__veil{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,
+    rgba(0,0,0,.12) 0%,
+    rgba(0,0,0,.42) 58%,
+    rgba(0,0,0,.68) 100%);
+  transition:background .3s ease;
+}
+.blade__body{
+  position:absolute;left:0;right:0;bottom:0;
+  display:flex;flex-direction:column;align-items:flex-start;
+  padding:0 30px 30px;
+  transform:skewX(11deg);
+}
+/* a primeira lâmina alinha o texto com a margem da página */
+.blade:first-child .blade__body{padding-left:var(--edge)}
+.blade__num{
+  font-size:44px;font-weight:800;line-height:1;
+  letter-spacing:-.04em;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(255,255,255,.42);
+}
+.blade__name{margin-top:12px;font-size:19px;font-weight:700;letter-spacing:-.02em}
+
+.blade__tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.blade__tags:empty{display:none}
+.tag{
+  padding:5px 11px;
+  border:1px solid rgba(255,255,255,.24);border-radius:999px;
+  font-size:11.5px;font-weight:600;color:rgba(255,255,255,.82);
+  white-space:nowrap;
+}
+
+.blade__go{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:18px;
+  font-size:13.5px;font-weight:600;color:var(--teal);
+}
+.blade__go svg{width:15px;height:15px;flex:none}
+.blade__go path{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* a lâmina apontada cresce e ganha o veio turquesa da referência */
+.blades:hover .blade{flex-grow:.85}
+.blade:hover,.blade:focus-visible{flex-grow:1.5}
+.blade:hover .blade__photo{transform:skewX(11deg) scale(1.32)}
+.blade:hover .blade__veil{
+  background:linear-gradient(180deg,
+    rgba(var(--panel-rgb),.35) 0%,
+    rgba(13,80,72,.72) 62%,
+    rgba(34,183,156,.82) 100%);
+}
+.blade:focus-visible{outline:2px solid var(--teal);outline-offset:-4px}
+
+/* lâmina ainda sem projeto: não reage ao ponteiro e se anuncia como vaga */
+.blade--vazio{cursor:default}
+.blade--vazio .blade__veil{
+  background:linear-gradient(180deg,rgba(0,0,0,.3) 0%,rgba(0,0,0,.5) 100%);
+}
+.blade--vazio .blade__num{-webkit-text-stroke-color:rgba(255,255,255,.2)}
+.blade--vazio .blade__name{
+  font-weight:500;font-size:15px;color:rgba(255,255,255,.42);
+  border-bottom:1px dashed rgba(255,255,255,.26);padding-bottom:4px;
+}
+.blades:hover .blade--vazio,.blade--vazio:hover{flex-grow:.85}
+.blade--vazio:hover .blade__photo{transform:skewX(11deg) scale(1.25)}
+.blade--vazio:hover .blade__veil{
+  background:linear-gradient(180deg,rgba(0,0,0,.3) 0%,rgba(0,0,0,.5) 100%);
+}
 
 /* ---------- 11. Quem somos ---------- */
 .about{
@@ -475,6 +580,18 @@ a:focus-visible,button:focus-visible{
   .eyebrow{margin-bottom:12px;gap:9px;font-size:9px;letter-spacing:.16em}
   .eyebrow i{width:22px}
 
+  /* Menos pontos de turquesa na tela pequena: os enfeites que se repetem
+     nas seções claras ficam neutros e o destaque sobra para a marca e os
+     botões de ação. Nas faixas escuras o turquesa continua — ali o tom
+     neutro ficava lavado, com cara de elemento desativado. */
+  .eyebrow{color:var(--quiet)}
+  .eyebrow--on-dark{color:var(--teal)}
+  .card__icon *{stroke:var(--quiet)}
+  .card__go path{stroke:var(--quiet)}
+  .arrow-link .icon path{stroke:var(--quiet)}
+  .value__icon *{stroke:var(--quiet)}
+  .visual__chevron--work path{stroke:var(--quiet-dark);opacity:.4}
+
   /* soluções: os seis cartões cabem juntos */
   .solutions{padding:26px 0 14px}
   .solutions__grid{gap:20px}
@@ -524,12 +641,36 @@ a:focus-visible,button:focus-visible{
   .step__title{margin-bottom:2px;font-size:11.5px}
   .step__text{font-size:10px;line-height:1.42}
 
-  .projects{padding:24px 0 22px}
+  /* projetos: as lâminas inclinadas continuam iguais às do desktop.
+     Três delas não cabem legíveis em 375px, então a faixa rola de lado. */
+  .projects{padding:24px 0 0}
   .projects .section-title{font-size:16px}
-  .projects__list{gap:8px;margin-top:14px}
-  .project{padding:13px 14px;gap:12px;border-radius:8px}
-  .project__name{font-size:12.5px}
-  .project__go{width:14px;height:14px}
+  .projects__head{margin-bottom:16px}
+  .blades{
+    overflow-x:auto;overflow-y:hidden;
+    -webkit-overflow-scrolling:touch;
+    scroll-snap-type:x proximity;
+    scrollbar-width:none;
+    padding-right:30px;
+  }
+  .blades::-webkit-scrollbar{display:none}
+  .blade{
+    flex:0 0 198px;
+    min-height:250px;
+    scroll-snap-align:start;
+  }
+  .blade:only-child{flex:0 0 72%}
+  .blade + .blade{margin-left:-38px}
+  .blade + .blade .blade__body{padding-left:54px}
+  .blade__body{padding:0 18px 20px}
+  .blade:first-child .blade__body{padding-left:var(--gutter)}
+  .blade__num{font-size:30px}
+  .blade__name{margin-top:8px;font-size:15px}
+  .blade--vazio .blade__name{font-size:13px}
+  .blade__tags{margin-top:9px;gap:6px}
+  .tag{padding:4px 9px;font-size:10px}
+  .blade__go{margin-top:12px;font-size:11.5px}
+  .blade__go svg{width:13px;height:13px}
 
   /* quem somos: o texto ocupa a faixa inteira e os três valores
      dividem a faixa logo abaixo, em três colunas. */
