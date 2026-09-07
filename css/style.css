@@ -1,0 +1,433 @@
+/* =============================================================
+   Exksvol Contato — folha de estilo principal
+   ============================================================= */
+
+/* ---------- 1. Tokens ---------- */
+:root{
+  /* cor */
+  --teal:#34D8BB;
+  --teal-2:#22B79C;
+  --dark:#0A201E;
+  --dark-2:#0D2725;
+  --dark-body:#A6BCB9;
+  --line-dark:#1B403C;
+
+  --ink:#0D1F1E;
+  --body:#5C6E6C;
+  --paper:#FFFFFF;
+  --paper-2:#F4F8F7;
+  --line:#E2EAE8;
+
+  /* medida */
+  /* A referência mantém o conteúdo em ~88% da largura, com margem de ~6,2%. */
+  --container:1280px;
+  --gutter:clamp(20px, 6.2vw, 88px);
+  /* alinha um bloco sangrado à borda interna do container */
+  --edge:max(var(--gutter), calc((100vw - var(--container)) / 2));
+
+  --radius:10px;
+  --header-h:73px;
+}
+
+/* ---------- 2. Base ---------- */
+*,*::before,*::after{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none !important;animation:none !important}
+}
+
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--body);
+  font-family:"Plus Jakarta Sans","Segoe UI",Helvetica,Arial,sans-serif;
+  font-size:15px;
+  line-height:1.72;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+h1,h2,h3,h4{
+  margin:0;
+  color:var(--ink);
+  letter-spacing:-.028em;
+  line-height:1.16;
+  text-wrap:balance;
+}
+p{margin:0}
+img{max-width:100%;display:block}
+ol,ul{margin:0;padding:0;list-style:none}
+
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible{
+  outline:2px solid var(--teal);
+  outline-offset:3px;
+  border-radius:2px;
+}
+
+.container{width:min(100% - 2 * var(--gutter), var(--container));margin-inline:auto}
+
+.skip{
+  position:absolute;left:-9999px;top:0;z-index:200;
+  background:var(--dark);color:#FFF;padding:12px 20px;
+}
+.skip:focus{left:12px;top:12px}
+
+.icon{width:16px;height:16px;flex:none}
+.icon path{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- 3. Peças reutilizáveis ---------- */
+.eyebrow{
+  display:flex;align-items:center;gap:14px;
+  margin:0 0 20px;
+  font-size:11.5px;font-weight:700;
+  letter-spacing:.19em;text-transform:uppercase;
+  color:var(--teal-2);
+}
+.eyebrow--on-dark{color:var(--teal)}
+.eyebrow i{display:block;width:34px;height:2px;background:currentColor;flex:none}
+/* variante da faixa "Como trabalhamos": o filete cai abaixo do rótulo */
+.eyebrow--stacked{flex-direction:column;align-items:flex-start;gap:11px}
+
+.section-title{font-size:clamp(25px,2.6vw,33px);font-weight:800}
+.solutions .section-title{font-size:clamp(28px,2.75vw,39px)}
+.work .section-title{font-size:clamp(23px,2.3vw,32px)}
+.about .section-title{font-size:clamp(19px,1.6vw,22px)}
+.about .eyebrow{margin-bottom:14px}
+.section-title--on-dark{color:#FFF}
+.section-text{margin-top:20px;max-width:36ch}
+.section-text--on-dark{color:var(--dark-body);max-width:42ch}
+
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  border:1.5px solid transparent;border-radius:999px;
+  padding:13px 26px;
+  font-size:14.5px;font-weight:600;
+  white-space:nowrap;cursor:pointer;
+  transition:background .16s ease,color .16s ease,border-color .16s ease;
+}
+.btn--solid{background:var(--teal);color:#06201C;border-color:var(--teal)}
+.btn--solid:hover{background:var(--teal-2);border-color:var(--teal-2);color:#041815}
+
+.btn--outline-light{color:#FFF;border-color:rgba(255,255,255,.34)}
+.btn--outline-light:hover{border-color:var(--teal);color:var(--teal)}
+
+.btn--outline-dark{color:var(--ink);border-color:var(--line)}
+.btn--outline-dark:hover{border-color:var(--teal-2);color:var(--teal-2)}
+.about .btn--outline-dark{margin-top:14px;padding:6px 18px;font-size:13px;line-height:1.3}
+
+.btn--outline-brand{color:var(--ink);border-color:var(--teal);padding:11px 22px;font-size:14px}
+.btn--outline-brand:hover{background:var(--teal);color:#06201C}
+
+.arrow-link{
+  display:inline-flex;align-items:center;gap:9px;
+  font-size:14.5px;font-weight:600;color:var(--ink);
+}
+.arrow-link .icon path{stroke:var(--teal-2)}
+.arrow-link:hover{color:var(--teal-2)}
+
+/* ---------- 4. Marca ---------- */
+.brand{display:inline-flex;align-items:center;gap:11px;color:var(--ink)}
+.brand__glyph{width:31px;height:37px;flex:none}
+.brand__glyph path{fill:var(--teal)}
+.brand__names{display:flex;flex-direction:column;line-height:1}
+.brand__name{font-size:23px;font-weight:700;letter-spacing:-.03em}
+.brand__sub{font-size:11px;font-weight:500;letter-spacing:.02em;margin-top:3px;opacity:.62}
+
+/* ---------- 5. Topo ---------- */
+.site-header{
+  position:sticky;top:0;z-index:100;
+  background:var(--paper);
+  border-bottom:1px solid var(--line);
+  transition:box-shadow .18s ease;
+}
+.site-header.is-stuck{box-shadow:0 6px 24px rgba(13,31,30,.07)}
+
+.header-inner{
+  display:flex;align-items:center;justify-content:space-between;gap:28px;
+  padding-top:22px;padding-bottom:22px;
+}
+
+.nav{display:flex;gap:34px}
+.nav__link{
+  font-size:14.5px;font-weight:500;color:var(--body);
+  padding-bottom:5px;
+  border-bottom:2px solid transparent;
+  transition:color .15s ease,border-color .15s ease;
+}
+.nav__link:hover{color:var(--ink)}
+.nav__link.is-active{color:var(--ink);font-weight:600;border-bottom-color:var(--teal)}
+
+.nav-toggle{
+  display:none;
+  width:42px;height:38px;
+  background:none;border:1px solid var(--line);border-radius:8px;
+  padding:0 10px;
+  flex-direction:column;justify-content:center;gap:5px;
+}
+.nav-toggle span{
+  display:block;height:2px;background:var(--ink);border-radius:2px;
+  transition:transform .18s ease,opacity .18s ease;
+}
+.nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+.nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* ---------- 6. Blocos visuais (fotografia + maquete de reserva) ---------- */
+.visual{position:relative;overflow:hidden;background:var(--dark-2)}
+.visual__mock{position:absolute;inset:0}
+/* A fotografia cobre a maquete assim que o arquivo existir na pasta img/ */
+.visual__photo{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+}
+.visual--hero .visual__photo{background-image:url("../img/hero.jpg")}
+.visual--work .visual__photo{background-image:url("../img/work.jpg")}
+.visual--about .visual__photo{background-image:url("../img/about.jpg")}
+
+.glow{
+  position:absolute;inset:0;
+  background:radial-gradient(120% 90% at 78% 18%,rgba(52,216,187,.09),transparent 62%);
+}
+
+.win{
+  position:absolute;
+  background:#071A19;
+  border:1px solid var(--line-dark);
+  border-radius:8px;overflow:hidden;
+  box-shadow:0 20px 48px rgba(0,0,0,.5);
+}
+.win--code{left:10%;top:16%;width:62%;height:55%}
+.win--chart{left:40%;top:50%;width:48%;height:34%}
+.win__bar{
+  display:flex;gap:6px;padding:9px 12px;
+  background:#0A2220;border-bottom:1px solid var(--line-dark);
+}
+.win__bar i{display:block;width:8px;height:8px;border-radius:50%;background:#1E4A45}
+.win__bar i:first-child{background:#2C5B54}
+.win__body{display:flex;flex-direction:column;gap:7px;padding:14px 14px 0}
+.ln{display:block;height:6px;border-radius:3px;background:#1A3C38}
+.ln--key{background:#2F6B62}
+.ln--str{background:#3E8F80}
+.ln--num{background:#5A4A2E}
+.ln--i1{margin-left:20px}
+.ln--i2{margin-left:38px}
+.win__bars{display:flex;align-items:flex-end;gap:8px;height:100%;padding:16px 14px}
+.win__bars b{
+  display:block;flex:1;border-radius:2px 2px 0 0;
+  background:linear-gradient(180deg,rgba(52,216,187,.5),rgba(52,216,187,.08));
+}
+
+.visual__mark{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  display:flex;align-items:center;gap:12px;opacity:.5;
+}
+.visual__mark svg{width:37px;height:44px}
+.visual__mark svg path{fill:var(--teal)}
+.visual__mark span{color:#FFF;font-size:26px;font-weight:700;letter-spacing:-.03em}
+
+/* Na referência o chevron ultrapassa a foto e avança sobre o fundo claro. */
+.visual--about{overflow:visible}
+.visual__chevron{
+  position:absolute;left:-26%;top:50%;transform:translateY(-50%);
+  width:70%;height:auto;z-index:2;
+}
+.visual__chevron path{fill:none;stroke:var(--teal);stroke-width:.5;opacity:.9;vector-effect:non-scaling-stroke}
+
+/* Mesmo efeito em "Como trabalhamos": aqui a foto fica à esquerda,
+   então o chevron sai pela direita, espelhado, sobre a coluna de texto. */
+.visual--work{overflow:visible}
+.visual__chevron--work{
+  left:56%;
+  transform:translateY(-50%);
+}
+
+/* ---------- 7. Hero ---------- */
+.hero{
+  background:var(--dark);
+  display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,1fr);
+  align-items:center;
+}
+.hero__copy{padding:78px 52px 78px var(--edge)}
+.hero__title{
+  color:#FFF;
+  font-size:clamp(34px,3.55vw,47px);
+  font-weight:800;line-height:1.14;
+}
+.hero__title .accent{color:var(--teal)}
+.hero__lead{
+  margin:20px 0 28px;
+  max-width:47ch;font-size:15.5px;color:var(--dark-body);
+}
+.hero__actions{display:flex;flex-wrap:wrap;gap:14px}
+.visual--hero{min-height:380px;height:100%}
+
+/* ---------- 8. Soluções ---------- */
+.solutions{background:var(--paper-2);padding:46px 0 18px}
+.solutions__grid{
+  display:grid;grid-template-columns:minmax(0,.83fr) minmax(0,2fr);gap:52px;
+}
+.solutions__intro .section-text{margin-bottom:26px}
+
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.card{
+  display:flex;flex-direction:column;
+  background:var(--paper);
+  border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px 22px 20px;
+  transition:border-color .16s ease,transform .16s ease,box-shadow .16s ease;
+}
+.card:hover{
+  border-color:var(--teal);
+  transform:translateY(-2px);
+  box-shadow:0 10px 26px rgba(13,31,30,.06);
+}
+.card__icon{width:24px;height:24px;margin-bottom:20px}
+.card__icon *{fill:none;stroke:var(--teal-2);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.card__title{font-size:16.5px;font-weight:700;margin-bottom:8px}
+.card__text{margin-bottom:16px;font-size:14px;line-height:1.62}
+.card__go{width:17px;height:17px;margin-top:auto}
+.card__go path{fill:none;stroke:var(--teal-2);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- 9. Como trabalhamos ---------- */
+.work{
+  background:var(--dark);
+  display:grid;grid-template-columns:minmax(200px,33.2%) minmax(0,1fr);
+}
+.visual--work{min-height:330px}
+.work__right{
+  display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:66px;
+  padding:44px var(--edge) 22px 50px;
+  align-items:start;
+}
+
+.steps{display:flex;flex-direction:column;gap:18px}
+.step{display:grid;grid-template-columns:38px minmax(0,1fr);gap:16px;position:relative}
+.step:not(:last-child)::before{
+  content:"";position:absolute;left:18.5px;top:38px;bottom:-18px;
+  width:1px;background:var(--line-dark);
+}
+.step__num{
+  position:relative;z-index:1;
+  display:grid;place-items:center;
+  width:38px;height:38px;border-radius:50%;
+  border:1.5px solid var(--teal);background:var(--dark);
+  color:var(--teal);font-size:12.5px;font-weight:700;
+}
+.step__title{color:#FFF;font-size:15.5px;font-weight:700;margin-bottom:5px}
+.step__text{color:var(--dark-body);font-size:14px;line-height:1.6}
+
+/* ---------- 10. Quem somos ---------- */
+.about{
+  background:var(--paper-2);
+}
+.about__inner{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.45fr);gap:48px;
+  padding:24px 44px 32px var(--edge);
+  align-items:start;
+}
+.about__text{margin:17px 0 4px;font-size:13px;line-height:1.62;max-width:40ch}
+.visual--about{min-height:300px}
+
+.values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.value{padding:0 22px;border-left:1px solid var(--line)}
+.value:first-child{padding-left:0;border-left:0}
+.value__icon{width:24px;height:24px;margin-bottom:14px}
+.value__icon *{fill:none;stroke:var(--teal-2);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.value__title{font-size:15px;font-weight:700;margin-bottom:6px}
+.value__text{font-size:13.5px;line-height:1.6}
+
+/* ---------- 11. Faixa de contato ---------- */
+.band-wrap{background:var(--paper-2);padding:0 0 21px}
+.band{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:38px;
+  align-items:center;
+  padding:15px 34px;
+  background:var(--dark);border-radius:12px;
+}
+.band__head .eyebrow{margin-bottom:12px}
+.band__title{color:#FFF;font-size:clamp(20px,2vw,26px);font-weight:800}
+.band__text{
+  max-width:40ch;font-size:14.5px;color:var(--dark-body);
+  border-left:1px solid var(--line-dark);padding-left:38px;
+}
+
+/* ---------- 12. Rodapé ---------- */
+.site-footer{background:var(--dark);color:var(--dark-body)}
+.site-footer .brand{color:#FFF}
+.footer-top{
+  display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:34px;
+  align-items:center;padding:20px 0;
+}
+.footer-claim{
+  max-width:34ch;font-size:13.5px;
+  border-left:1px solid var(--line-dark);padding-left:34px;
+}
+.footer-nav{display:flex;flex-wrap:wrap;gap:26px}
+.footer-nav a{font-size:13.5px;transition:color .15s ease}
+.footer-nav a:hover{color:var(--teal)}
+.social{display:flex;align-items:center;gap:16px}
+.social a{display:block;width:19px;height:19px;color:var(--dark-body);transition:color .15s ease}
+.social a:hover{color:var(--teal)}
+.social svg{width:100%;height:100%}
+.social svg *{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.footer-bottom{border-top:1px solid var(--line-dark);padding:13px 0;font-size:12.5px}
+
+/* ---------- 13. Responsivo ---------- */
+@media (max-width:1080px){
+  .nav{
+    display:none;
+    position:absolute;top:100%;left:0;right:0;
+    flex-direction:column;gap:0;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    box-shadow:0 14px 30px rgba(13,31,30,.09);
+    padding:8px var(--gutter) 16px;
+  }
+  .nav.is-open{display:flex}
+  .nav__link{padding:12px 0;border-bottom:1px solid var(--line);border-left:0}
+  .nav__link.is-active{border-bottom-color:var(--line);color:var(--teal-2)}
+  .nav__link:last-child{border-bottom:0}
+
+  .site-header{position:relative}
+  .header-inner{position:relative}
+  .nav-toggle{display:flex}
+
+  .hero{grid-template-columns:1fr}
+  .hero__copy{padding:56px var(--gutter)}
+  .visual--hero{min-height:340px}
+
+  .solutions__grid{grid-template-columns:1fr;gap:36px}
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+
+  .work{grid-template-columns:1fr}
+  .visual--work{min-height:200px}
+  .work__right{grid-template-columns:1fr;gap:38px;padding:56px var(--gutter)}
+
+  .about{grid-template-columns:1fr}
+  .about__inner{grid-template-columns:1fr;gap:36px;padding:56px var(--gutter)}
+  .visual--about{min-height:220px}
+
+  .band{grid-template-columns:1fr;gap:22px;padding:30px 26px}
+  .band__text{border-left:0;padding-left:0}
+
+  .footer-top{grid-template-columns:1fr;gap:24px;align-items:start}
+  .footer-claim{border-left:0;padding-left:0}
+}
+
+@media (max-width:640px){
+  .header-inner{gap:16px}
+  .header-cta{padding:11px 18px;font-size:13.5px}
+
+  .cards{gap:14px}
+  .card{padding:20px 16px 18px}
+  .card__title{font-size:15px}
+  .card__text{font-size:13.5px}
+
+  .values{gap:10px}
+  .value{padding:0 10px;font-size:12.5px}
+  .value__title{font-size:13px}
+  .value__text{font-size:12px;line-height:1.5}
+}
