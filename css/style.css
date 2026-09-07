@@ -531,16 +531,17 @@ a:focus-visible,button:focus-visible{
   .project__name{font-size:12.5px}
   .project__go{width:14px;height:14px}
 
-  /* quem somos: texto e os três valores lado a lado */
-  .about__inner{grid-template-columns:minmax(0,.85fr) minmax(0,2fr);gap:16px;padding:20px var(--gutter) 22px}
-  .about .section-title{font-size:14px}
+  /* quem somos: o texto ocupa a faixa inteira e os três valores
+     dividem a faixa logo abaixo, em três colunas. */
+  .about__inner{grid-template-columns:1fr;gap:18px;padding:22px var(--gutter) 24px}
+  .about .section-title{font-size:16px}
   .about .eyebrow{margin-bottom:9px}
-  .about__text{margin:9px 0 3px;font-size:10.5px;line-height:1.5}
+  .about__text{margin:10px 0 0;max-width:none;font-size:11.5px;line-height:1.55}
   .values{grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
-  .value{padding:0 5px}
-  .value__icon{width:16px;height:16px;margin-bottom:8px}
-  .value__title{margin-bottom:3px;font-size:9.5px}
-  .value__text{font-size:9.5px;line-height:1.45}
+  .value{padding:0 9px}
+  .value__icon{width:17px;height:17px;margin-bottom:8px}
+  .value__title{margin-bottom:3px;font-size:11px}
+  .value__text{font-size:10px;line-height:1.45}
 
   /* faixa de contato: os três blocos continuam na mesma linha */
   .band-wrap{padding:0 0 12px}
