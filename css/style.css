@@ -118,7 +118,7 @@ a:focus-visible,button:focus-visible{
 .btn--outline-dark:hover{border-color:var(--teal-2);color:var(--teal-2)}
 .about .btn--outline-dark{margin-top:14px;padding:6px 18px;font-size:13px;line-height:1.3}
 
-.btn--outline-brand{color:var(--ink);border-color:var(--teal);padding:11px 22px;font-size:14px}
+.btn--outline-brand{color:#FFF;border-color:var(--teal);padding:11px 22px;font-size:14px}
 .btn--outline-brand:hover{background:var(--teal);color:#06201C}
 
 .arrow-link{
@@ -136,14 +136,15 @@ a:focus-visible,button:focus-visible{
 .brand__name{font-size:23px;font-weight:700;letter-spacing:-.03em}
 .brand__sub{font-size:11px;font-weight:500;letter-spacing:.02em;margin-top:3px;opacity:.62}
 
-/* ---------- 5. Topo ---------- */
+/* ---------- 5. Topo (sempre escuro) ---------- */
 .site-header{
   position:sticky;top:0;z-index:100;
-  background:var(--paper);
-  border-bottom:1px solid var(--line);
+  background:var(--dark);
+  border-bottom:1px solid var(--line-dark);
   transition:box-shadow .18s ease;
 }
-.site-header.is-stuck{box-shadow:0 6px 24px rgba(13,31,30,.07)}
+.site-header.is-stuck{box-shadow:0 6px 24px rgba(0,0,0,.35)}
+.site-header .brand{color:#FFF}
 
 .header-inner{
   display:flex;align-items:center;justify-content:space-between;gap:28px;
@@ -152,23 +153,23 @@ a:focus-visible,button:focus-visible{
 
 .nav{display:flex;gap:34px}
 .nav__link{
-  font-size:14.5px;font-weight:500;color:var(--body);
+  font-size:14.5px;font-weight:500;color:var(--dark-body);
   padding-bottom:5px;
   border-bottom:2px solid transparent;
   transition:color .15s ease,border-color .15s ease;
 }
-.nav__link:hover{color:var(--ink)}
-.nav__link.is-active{color:var(--ink);font-weight:600;border-bottom-color:var(--teal)}
+.nav__link:hover{color:#FFF}
+.nav__link.is-active{color:#FFF;font-weight:600;border-bottom-color:var(--teal)}
 
 .nav-toggle{
   display:none;
   width:42px;height:38px;
-  background:none;border:1px solid var(--line);border-radius:8px;
+  background:none;border:1px solid var(--line-dark);border-radius:8px;
   padding:0 10px;
   flex-direction:column;justify-content:center;gap:5px;
 }
 .nav-toggle span{
-  display:block;height:2px;background:var(--ink);border-radius:2px;
+  display:block;height:2px;background:#FFF;border-radius:2px;
   transition:transform .18s ease,opacity .18s ease;
 }
 .nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
@@ -183,9 +184,8 @@ a:focus-visible,button:focus-visible{
   position:absolute;inset:0;
   background-size:cover;background-position:center;
 }
-.visual--hero .visual__photo{background-image:url("../img/hero.jpg")}
+.visual--hero .visual__photo{background-image:url("../img/Painel.jpeg")}
 .visual--work .visual__photo{background-image:url("../img/work.jpg")}
-.visual--about .visual__photo{background-image:url("../img/about.jpg")}
 
 .glow{
   position:absolute;inset:0;
@@ -244,13 +244,31 @@ a:focus-visible,button:focus-visible{
   transform:translateY(-50%);
 }
 
-/* ---------- 7. Hero ---------- */
+/* ---------- 7. Hero ----------
+   A fotografia é o fundo do bloco inteiro; o texto vem por cima,
+   sempre dentro de 75% da largura. */
 .hero{
+  position:relative;
   background:var(--dark);
-  display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,1fr);
-  align-items:center;
+  display:block;
 }
-.hero__copy{padding:78px 52px 78px var(--edge)}
+.visual--hero{position:absolute;inset:0;min-height:0;z-index:0}
+/* véu escuro sobre a foto para o texto continuar legível */
+.visual--hero::after{
+  content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(90deg,
+    rgba(10,32,30,.97) 0%,
+    rgba(10,32,30,.93) 40%,
+    rgba(10,32,30,.6) 72%,
+    rgba(10,32,30,.28) 100%);
+}
+.hero__copy{
+  position:relative;z-index:2;
+  max-width:75%;
+  padding:78px 52px 78px var(--edge);
+  min-height:380px;
+  display:flex;flex-direction:column;justify-content:center;
+}
 .hero__title{
   color:#FFF;
   font-size:clamp(34px,3.55vw,47px);
@@ -262,7 +280,6 @@ a:focus-visible,button:focus-visible{
   max-width:47ch;font-size:15.5px;color:var(--dark-body);
 }
 .hero__actions{display:flex;flex-wrap:wrap;gap:14px}
-.visual--hero{min-height:380px;height:100%}
 
 /* ---------- 8. Soluções ---------- */
 .solutions{background:var(--paper-2);padding:46px 0 18px}
@@ -381,23 +398,21 @@ a:focus-visible,button:focus-visible{
     display:none;
     position:absolute;top:100%;left:0;right:0;
     flex-direction:column;gap:0;
-    background:var(--paper);
-    border-bottom:1px solid var(--line);
-    box-shadow:0 14px 30px rgba(13,31,30,.09);
+    background:var(--dark);
+    border-bottom:1px solid var(--line-dark);
+    box-shadow:0 14px 30px rgba(0,0,0,.45);
     padding:8px var(--gutter) 16px;
   }
   .nav.is-open{display:flex}
-  .nav__link{padding:12px 0;border-bottom:1px solid var(--line);border-left:0}
-  .nav__link.is-active{border-bottom-color:var(--line);color:var(--teal-2)}
+  .nav__link{padding:12px 0;border-bottom:1px solid var(--line-dark);border-left:0}
+  .nav__link.is-active{border-bottom-color:var(--line-dark);color:var(--teal)}
   .nav__link:last-child{border-bottom:0}
 
   .site-header{position:relative}
   .header-inner{position:relative}
   .nav-toggle{display:flex}
 
-  .hero{grid-template-columns:1fr}
-  .hero__copy{padding:56px var(--gutter)}
-  .visual--hero{min-height:340px}
+  .hero__copy{padding:56px var(--gutter);min-height:340px}
 
   .solutions__grid{grid-template-columns:1fr;gap:36px}
   .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -417,17 +432,120 @@ a:focus-visible,button:focus-visible{
   .footer-claim{border-left:0;padding-left:0}
 }
 
+/* No celular a referência não empilha o conteúdo: mantém as mesmas colunas
+   do desktop, tudo reduzido para caber de uma vez na tela. */
 @media (max-width:640px){
-  .header-inner{gap:16px}
-  .header-cta{padding:11px 18px;font-size:13.5px}
+  :root{--gutter:14px}
 
-  .cards{gap:14px}
-  .card{padding:20px 16px 18px}
-  .card__title{font-size:15px}
-  .card__text{font-size:13.5px}
+  /* topo escuro e mais fino */
+  .site-header{background:var(--dark);border-bottom-color:var(--line-dark)}
+  .header-inner{padding-top:10px;padding-bottom:10px;gap:10px}
+  .brand{color:#FFF;gap:8px}
+  .brand__glyph{width:22px;height:26px}
+  .brand__name{font-size:17px}
+  .brand__sub{font-size:8.5px;margin-top:2px}
+  .header-cta{color:#FFF;border-color:var(--teal);padding:7px 13px;font-size:12px;gap:7px}
+  .header-cta .icon{width:13px;height:13px}
+  .nav-toggle{width:34px;height:30px;padding:0 8px;border-color:var(--line-dark)}
+  .nav-toggle span{background:#FFF}
+  .nav{background:var(--dark);border-bottom-color:var(--line-dark);box-shadow:0 14px 30px rgba(0,0,0,.45)}
+  .nav__link{color:var(--dark-body);border-bottom-color:var(--line-dark);font-size:13.5px}
+  .nav__link:hover{color:#FFF}
+  .nav__link.is-active{color:var(--teal);border-bottom-color:var(--line-dark)}
 
-  .values{gap:10px}
-  .value{padding:0 10px;font-size:12.5px}
-  .value__title{font-size:13px}
-  .value__text{font-size:12px;line-height:1.5}
+  /* a foto passa a ficar por baixo do texto, aparecendo na parte de baixo */
+  .hero{position:relative;display:block}
+  .visual--hero{position:absolute;inset:0;min-height:0}
+  .visual--hero::after{
+    content:"";position:absolute;inset:0;z-index:1;
+    background:linear-gradient(180deg,
+      rgba(10,32,30,.95) 0%,
+      rgba(10,32,30,.88) 40%,
+      rgba(10,32,30,.42) 76%,
+      rgba(10,32,30,.22) 100%);
+  }
+  .hero__copy{position:relative;z-index:2;padding:24px var(--gutter) 116px}
+  .hero__title{font-size:25px;line-height:1.18}
+  .hero__lead{margin:12px 0 18px;max-width:34ch;font-size:12.5px}
+  .hero__actions{flex-wrap:nowrap;gap:8px}
+  .hero__actions .btn{padding:8px 13px;font-size:11px;gap:6px}
+  .hero__actions .icon{width:12px;height:12px}
+
+  .eyebrow{margin-bottom:12px;gap:9px;font-size:9px;letter-spacing:.16em}
+  .eyebrow i{width:22px}
+
+  /* soluções: os seis cartões cabem juntos */
+  .solutions{padding:26px 0 14px}
+  .solutions__grid{gap:20px}
+  .solutions .section-title{font-size:22px}
+  .section-text{margin-top:12px;font-size:12.5px}
+  .solutions__intro .section-text{margin-bottom:14px}
+  .arrow-link{font-size:12.5px}
+  .cards{gap:10px}
+  .card{padding:13px 11px 11px;border-radius:8px}
+  .card__icon{width:18px;height:18px;margin-bottom:11px}
+  .card__title{margin-bottom:5px;font-size:12.5px}
+  .card__text{margin-bottom:10px;font-size:11px;line-height:1.45}
+  .card__go{width:13px;height:13px}
+
+  /* como trabalhamos: volta a foto ao lado do texto */
+  .work{grid-template-columns:minmax(72px,22%) minmax(0,1fr)}
+  /* na coluna estreita do celular não há espaço para os enfeites da foto */
+  .visual--work{min-height:0;overflow:hidden}
+  .visual__mark,.visual__chevron{display:none}
+  .work__right{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;padding:18px 12px 14px}
+  .step__text,.step__title{overflow-wrap:break-word}
+  .work .section-title{font-size:16px}
+  .section-text--on-dark{margin-top:10px;font-size:11px}
+  .eyebrow--stacked{gap:7px}
+  .steps{gap:10px}
+  .step{grid-template-columns:24px minmax(0,1fr);gap:8px}
+  .step:not(:last-child)::before{left:11.5px;top:24px;bottom:-10px}
+  .step__num{width:24px;height:24px;border-width:1px;font-size:9px}
+  .step__title{margin-bottom:2px;font-size:11.5px}
+  .step__text{font-size:10px;line-height:1.42}
+
+  /* quem somos: texto e os três valores lado a lado */
+  .about__inner{grid-template-columns:minmax(0,.85fr) minmax(0,2fr);gap:16px;padding:20px var(--gutter) 22px}
+  .about .section-title{font-size:14px}
+  .about .eyebrow{margin-bottom:9px}
+  .about__text{margin:9px 0 3px;font-size:10.5px;line-height:1.5}
+  .about .btn--outline-dark{margin-top:10px;padding:5px 12px;font-size:10.5px}
+  .values{grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
+  .value{padding:0 5px}
+  .value__icon{width:16px;height:16px;margin-bottom:8px}
+  .value__title{margin-bottom:3px;font-size:9.5px}
+  .value__text{font-size:9.5px;line-height:1.45}
+
+  /* faixa de contato: os três blocos continuam na mesma linha */
+  .band-wrap{padding:0 0 12px}
+  .band{grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:10px;padding:10px 12px;border-radius:8px}
+  .band__head .eyebrow{margin-bottom:5px;font-size:8px}
+  .band__title{font-size:12px}
+  .band__text{max-width:none;padding-left:10px;border-left:1px solid var(--line-dark);font-size:9px;line-height:1.5}
+  .band .btn{padding:7px 11px;font-size:10px;gap:6px}
+  .band .icon{width:12px;height:12px}
+
+  /* rodapé: marca + frase em cima, navegação + redes embaixo.
+     Os quatro blocos numa linha só não cabem de forma legível a 375px. */
+  .footer-top{
+    grid-template-columns:auto minmax(0,1fr) auto;
+    grid-template-areas:
+      "marca frase frase"
+      "menu  menu  redes";
+    gap:10px;align-items:center;padding:12px 0;
+  }
+  .site-footer .brand{grid-area:marca}
+  .footer-claim{grid-area:frase}
+  .footer-nav{grid-area:menu}
+  .social{grid-area:redes}
+  .site-footer .brand__glyph{width:18px;height:21px}
+  .site-footer .brand__name{font-size:14px}
+  .site-footer .brand__sub{font-size:7.5px}
+  .footer-claim{max-width:22ch;padding-left:10px;border-left:1px solid var(--line-dark);font-size:9px;line-height:1.45}
+  .footer-nav{gap:7px}
+  .footer-nav a{font-size:9px}
+  .social{gap:7px}
+  .social a{width:12px;height:12px}
+  .footer-bottom{padding:8px 0;font-size:8.5px}
 }
