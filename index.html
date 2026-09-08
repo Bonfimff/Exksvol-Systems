@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
 
 <link rel="stylesheet" href="css/style.css">
-<script src="js/main.js" defer></script>
+<script src="js/main.js?v=3" defer></script>
 </head>
 <body>
 
@@ -67,8 +67,6 @@
   <section class="hero" id="inicio">
 
     <div class="hero__copy">
-      <p class="eyebrow eyebrow--on-dark">Tecnologia que impulsiona resultados</p>
-
       <h1 class="hero__title">
         Soluções digitais<br>
         sob medida para o seu<br>
@@ -263,7 +261,7 @@
          e ajuste o número em .blade__num. -->
     <div class="blades">
 
-      <a class="blade" href="https://www.tourbyfoot.com/" target="_blank" rel="noopener">
+      <button type="button" class="blade" data-project="tourbyfoot" aria-haspopup="dialog">
         <span class="blade__photo" aria-hidden="true"></span>
         <span class="blade__veil" aria-hidden="true"></span>
         <span class="blade__body">
@@ -273,11 +271,11 @@
             <!-- Soluções aplicadas neste projeto. -->
           </span>
           <span class="blade__go">
-            Visitar o site
+            Ver projeto
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
           </span>
         </span>
-      </a>
+      </button>
 
       <!-- Ao receber o projeto, troque a div por <a class="blade" href="..."
            target="_blank" rel="noopener">, ponha o nome em .blade__name e
@@ -390,6 +388,80 @@
     <div class="container">© 2025 Exksvol Systems. Todos os direitos reservados.</div>
   </div>
 </footer>
+
+<!-- ============================= MODAL DE PROJETO ============================= -->
+<div class="modal" id="project-modal" hidden>
+  <div class="modal__veil" data-close></div>
+
+  <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button type="button" class="modal__close" data-close aria-label="Fechar">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+
+    <div class="modal__carousel" id="modal-carousel">
+      <div class="modal__slide is-active" style="background-image:url('img/projetos/tourbyfoot/rio.jpeg')"></div>
+      <div class="modal__slide" style="background-image:url('img/projetos/tourbyfoot/salvador.jpeg')"></div>
+      <div class="modal__slide" style="background-image:url('img/projetos/tourbyfoot/saoluis.jpeg')"></div>
+      <div class="modal__slide" style="background-image:url('img/projetos/tourbyfoot/lencois.jpeg')"></div>
+      <div class="modal__dots" id="modal-dots"></div>
+    </div>
+
+    <div class="modal__body">
+      <span class="modal__eyebrow">Projeto 01</span>
+      <h3 class="modal__title" id="modal-title">TourByFoot.com</h3>
+
+      <div class="modal__block">
+        <p class="modal__text">
+          Site desenvolvido para uma empresa de turismo especializada em walking tours e
+          experiências guiadas no Brasil. A solução combina uma interface visual imersiva
+          com páginas dinâmicas para apresentação dos tours, destinos e informações das
+          experiências. O design foi pensado para valorizar as imagens dos destinos sem
+          comprometer a clareza das informações e a experiência de navegação.
+        </p>
+      </div>
+
+      <div class="modal__more" id="modal-more-content" hidden>
+        <div class="modal__block">
+          <h4 class="modal__block-title">Navegação e conversão</h4>
+          <p class="modal__text">
+            O projeto conta com estrutura para gerenciamento de conteúdo, navegação
+            responsiva e diferentes fluxos de conversão, permitindo ao usuário realizar
+            reservas pela página ou iniciar o atendimento diretamente pelo WhatsApp.
+          </p>
+        </div>
+
+        <div class="modal__block">
+          <h4 class="modal__block-title">Sobre o desenvolvimento</h4>
+          <p class="modal__text">
+            Mais do que um site institucional, o projeto foi desenvolvido como uma aplicação
+            web integrada a um sistema de gerenciamento. A plataforma conecta a experiência
+            do visitante com a operação interna da empresa, permitindo centralizar reservas,
+            conteúdo, clientes, colaboradores e informações financeiras em um único ambiente.
+          </p>
+        </div>
+
+        <div class="modal__block">
+          <h4 class="modal__block-title">Painel de gerenciamento</h4>
+          <p class="modal__text">
+            As reservas podem ser acompanhadas de acordo com seu status — confirmadas,
+            pendentes ou canceladas — além de indicadores sobre o desempenho dos tours,
+            como os mais acessados e os que concentram maior número de reservas. Os dados
+            da própria plataforma auxiliam na tomada de decisões e na identificação das
+            experiências com maior procura.
+          </p>
+        </div>
+      </div>
+
+      <div class="modal__actions">
+        <button type="button" class="btn btn--outline-light" id="modal-more">Ver mais sobre esse projeto</button>
+        <a class="btn btn--solid" href="https://www.tourbyfoot.com/" target="_blank" rel="noopener">
+          Visitar página
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

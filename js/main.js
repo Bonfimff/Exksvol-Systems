@@ -111,4 +111,91 @@
 
   updateHeaderState();
   updateActiveLink();
+
+  /* ---------- 5. Modal de projeto ---------- */
+  var modal = document.getElementById('project-modal');
+  var carousel = document.getElementById('modal-carousel');
+  var dotsWrap = document.getElementById('modal-dots');
+  var moreBtn = document.getElementById('modal-more');
+  var lastFocused = null;
+  var slideTimer = null;
+  var slideIndex = 0;
+
+  if (modal && carousel) {
+    var slides = Array.prototype.slice.call(carousel.querySelectorAll('.modal__slide'));
+
+    // monta os indicadores do carrossel a partir dos slides existentes
+    slides.forEach(function (slide, i) {
+      var dot = document.createElement('button');
+      dot.type = 'button';
+      dot.setAttribute('aria-label', 'Foto ' + (i + 1));
+      if (i === 0) dot.classList.add('is-active');
+      dot.addEventListener('click', function () { goToSlide(i); });
+      dotsWrap.appendChild(dot);
+    });
+    var dots = Array.prototype.slice.call(dotsWrap.querySelectorAll('button'));
+
+    function goToSlide(i) {
+      slides[slideIndex].classList.remove('is-active');
+      dots[slideIndex].classList.remove('is-active');
+      slideIndex = i;
+      slides[slideIndex].classList.add('is-active');
+      dots[slideIndex].classList.add('is-active');
+    }
+
+    function nextSlide() {
+      goToSlide((slideIndex + 1) % slides.length);
+    }
+
+    function startCarousel() {
+      stopCarousel();
+      slideTimer = window.setInterval(nextSlide, 3800);
+    }
+
+    function stopCarousel() {
+      if (slideTimer) { window.clearInterval(slideTimer); slideTimer = null; }
+    }
+
+    function openModal(trigger) {
+      lastFocused = trigger;
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      goToSlide(0);
+      startCarousel();
+      var closeBtn = modal.querySelector('.modal__close');
+      if (closeBtn) closeBtn.focus();
+    }
+
+    function closeModal() {
+      modal.hidden = true;
+      document.body.style.overflow = '';
+      stopCarousel();
+      if (lastFocused) lastFocused.focus();
+    }
+
+    Array.prototype.slice.call(document.querySelectorAll('.blade[data-project]')).forEach(function (blade) {
+      blade.addEventListener('click', function () { openModal(blade); });
+    });
+
+    modal.addEventListener('click', function (event) {
+      if (event.target.closest('[data-close]')) closeModal();
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && !modal.hidden) closeModal();
+    });
+
+    // pausa a rotação automática enquanto o visitante examina uma foto
+    carousel.addEventListener('mouseenter', stopCarousel);
+    carousel.addEventListener('mouseleave', function () { if (!modal.hidden) startCarousel(); });
+
+    if (moreBtn) {
+      moreBtn.addEventListener('click', function () {
+        var more = modal.querySelector('#modal-more-content');
+        var expanded = !more.hidden;
+        more.hidden = expanded;
+        moreBtn.textContent = expanded ? 'Ver mais sobre esse projeto' : 'Ver menos';
+      });
+    }
+  }
 })();
