@@ -3,23 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Exksvol Systems — Soluções digitais sob medida</title>
+<title>Exksvol Systems · Soluções digitais sob medida</title>
 <meta name="description" content="A Exksvol Systems desenvolve softwares e sistemas personalizados para transformar ideias em soluções reais.">
 <meta name="theme-color" content="#0A201E">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="Exksvol Systems — Soluções digitais sob medida">
 <meta property="og:description" content="Desenvolvemos softwares e sistemas personalizados para transformar ideias em soluções reais.">
-<meta property="og:image" content="img/Logo.png">
+<meta property="og:image" content="img/assets/Logo.png">
 
-<link rel="icon" href="img/Logo.png">
+<link rel="icon" href="img/assets/Logo.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
 
-<link rel="stylesheet" href="css/style.css">
-<script src="js/main.js?v=3" defer></script>
+<link rel="stylesheet" href="css/style.css?v=9">
+<script src="js/main.js?v=7" defer></script>
 </head>
 <body>
 
@@ -48,7 +48,7 @@
       <a class="nav__link" href="#contato">Contato</a>
     </nav>
 
-    <a class="btn btn--outline-brand header-cta" href="#contato">
+    <a class="btn btn--outline-brand header-cta" href="https://wa.me/5521959059717?text=Ol%C3%A1!%20Gostaria%20de%20falar%20com%20a%20Exksvol%20Systems." target="_blank" rel="noopener">
       <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
       Fale conosco
     </a>
@@ -80,7 +80,7 @@
       </p>
 
       <div class="hero__actions">
-        <a class="btn btn--solid" href="#contato">
+        <a class="btn btn--solid" href="https://wa.me/5521959059717?text=Ol%C3%A1!%20Gostaria%20de%20solicitar%20um%20projeto." target="_blank" rel="noopener">
           Solicitar um projeto
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
         </a>
@@ -346,8 +346,15 @@
           <p class="eyebrow eyebrow--on-dark">Vamos conversar?</p>
           <h2 class="band__title">Seu projeto pode começar hoje.</h2>
         </div>
-        <p class="band__text">Entre em contato e descubra como podemos ajudar o seu negócio a crescer.</p>
-        <a class="btn btn--solid" href="#contato">
+        <div class="band__middle">
+          <p class="band__text">Entre em contato e descubra como podemos ajudar o seu negócio a crescer.</p>
+          <p class="band__channels">
+            <a href="mailto:contato@exksvol.com">contato@exksvol.com</a>
+            <span aria-hidden="true">·</span>
+            <a href="https://wa.me/5521959059717" target="_blank" rel="noopener">+55 21 95905-9717</a>
+          </p>
+        </div>
+        <a class="btn btn--solid" href="https://wa.me/5521959059717?text=Ol%C3%A1!%20Gostaria%20de%20falar%20com%20a%20Exksvol%20Systems." target="_blank" rel="noopener">
           Fale conosco
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
         </a>
@@ -399,11 +406,35 @@
     </button>
 
     <div class="modal__carousel" id="modal-carousel">
-      <div class="modal__slide is-active" style="background-image:url('img/projetos/tourbyfoot/rio.jpeg')"></div>
-      <div class="modal__slide" style="background-image:url('img/projetos/tourbyfoot/salvador.jpeg')"></div>
-      <div class="modal__slide" style="background-image:url('img/projetos/tourbyfoot/saoluis.jpeg')"></div>
-      <div class="modal__slide" style="background-image:url('img/projetos/tourbyfoot/lencois.jpeg')"></div>
-      <div class="modal__dots" id="modal-dots"></div>
+      <!-- Mockup do notebook + celular. Os prints ficam DEBAIXO da moldura:
+           cada um foi deformado por perspectiva (4 cantos da imagem inteira
+           mapeados para os 4 cantos internos da respectiva tela, sem cortar
+           nada) e a moldura por cima tem um recorte transparente exatamente
+           no formato de cada tela, então ela mascara a imagem de verdade —
+           não é uma sobreposição, é a tela "acendida" atrás do vidro. -->
+      <div class="device-mock">
+        <svg class="device-mock__mark" viewBox="0 0 46 55" aria-hidden="true">
+          <path fill-rule="evenodd" d="M0.5,15.5 L13,1 L43,1 L45,2 L38,8 L16,8 L8,16 L8,20 L36,20 L29,27 L8,27 L7.5,33 L31,33 L44.5,46.5 L45,54 L16,54 L1.5,40.5 Z M11,40 L28,40 L36,47 L17.5,47 Z"/>
+        </svg>
+        <div class="device-mock__stage">
+          <!-- Cada tela troca sozinha entre as capturas da respectiva pasta
+               (img/Notbook e img/Celular) — os dois rodízios são independentes. -->
+          <span class="device-mock__screen device-mock__screen--laptop" id="mock-laptop">
+            <span class="device-mock__slide is-active" style="background-image:url('img/projetos/tourbyfoot/laptop-warped-1.png')"></span>
+            <span class="device-mock__slide" style="background-image:url('img/projetos/tourbyfoot/laptop-warped-2.png')"></span>
+            <span class="device-mock__slide" style="background-image:url('img/projetos/tourbyfoot/laptop-warped-3.png')"></span>
+          </span>
+          <span class="device-mock__screen device-mock__screen--phone" id="mock-phone">
+            <span class="device-mock__slide is-active" style="background-image:url('img/projetos/tourbyfoot/phone-warped-1.png')"></span>
+            <span class="device-mock__slide" style="background-image:url('img/projetos/tourbyfoot/phone-warped-2.png')"></span>
+            <span class="device-mock__slide" style="background-image:url('img/projetos/tourbyfoot/phone-warped-3.png')"></span>
+            <span class="device-mock__slide" style="background-image:url('img/projetos/tourbyfoot/phone-warped-4.png')"></span>
+            <span class="device-mock__slide" style="background-image:url('img/projetos/tourbyfoot/phone-warped-5.png')"></span>
+          </span>
+          <img class="device-mock__frame" src="img/projetos/tourbyfoot/frame-masked.png"
+               alt="Notebook e celular exibindo o site TourByFoot">
+        </div>
+      </div>
     </div>
 
     <div class="modal__body">
@@ -461,6 +492,22 @@
       </div>
     </div>
   </div>
+</div>
+
+<!-- ============================= VISUALIZADOR DE TELAS ============================= -->
+<div class="lightbox" id="device-lightbox" hidden>
+  <div class="lightbox__veil" data-lb-close></div>
+  <button type="button" class="lightbox__close" data-lb-close aria-label="Fechar">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+  </button>
+  <button type="button" class="lightbox__nav lightbox__nav--prev" id="lb-prev" aria-label="Foto anterior">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+  </button>
+  <img class="lightbox__img" id="lb-img" src="" alt="Captura de tela do site TourByFoot em tamanho maior">
+  <button type="button" class="lightbox__nav lightbox__nav--next" id="lb-next" aria-label="Próxima foto">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+  </button>
+  <div class="lightbox__dots" id="lb-dots"></div>
 </div>
 
 </body>

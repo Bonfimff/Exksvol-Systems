@@ -123,17 +123,22 @@
 
   if (modal && carousel) {
     var slides = Array.prototype.slice.call(carousel.querySelectorAll('.modal__slide'));
+    var dots = [];
 
-    // monta os indicadores do carrossel a partir dos slides existentes
-    slides.forEach(function (slide, i) {
-      var dot = document.createElement('button');
-      dot.type = 'button';
-      dot.setAttribute('aria-label', 'Foto ' + (i + 1));
-      if (i === 0) dot.classList.add('is-active');
-      dot.addEventListener('click', function () { goToSlide(i); });
-      dotsWrap.appendChild(dot);
-    });
-    var dots = Array.prototype.slice.call(dotsWrap.querySelectorAll('button'));
+    // monta os indicadores do carrossel a partir dos slides existentes.
+    // Projetos sem foto rotativa (como o mockup de dispositivos) não têm
+    // #modal-dots no HTML, então isso só roda quando há slide e wrapper.
+    if (dotsWrap) {
+      slides.forEach(function (slide, i) {
+        var dot = document.createElement('button');
+        dot.type = 'button';
+        dot.setAttribute('aria-label', 'Foto ' + (i + 1));
+        if (i === 0) dot.classList.add('is-active');
+        dot.addEventListener('click', function () { goToSlide(i); });
+        dotsWrap.appendChild(dot);
+      });
+      dots = Array.prototype.slice.call(dotsWrap.querySelectorAll('button'));
+    }
 
     function goToSlide(i) {
       slides[slideIndex].classList.remove('is-active');
@@ -148,6 +153,7 @@
     }
 
     function startCarousel() {
+      if (!slides.length) return; // este projeto usa o mockup fixo, sem fotos rotativas
       stopCarousel();
       slideTimer = window.setInterval(nextSlide, 3800);
     }
@@ -156,12 +162,126 @@
       if (slideTimer) { window.clearInterval(slideTimer); slideTimer = null; }
     }
 
+    // Rodízio das telas do mockup (notebook e celular): cada uma cicla,
+    // no seu próprio ritmo, pelas capturas que existirem dentro dela —
+    // os dois giram soltos, sem precisar estar sincronizados.
+    function makeScreenRotator(container, intervalMs) {
+      if (!container) return { start: function () {}, stop: function () {} };
+      var frames = Array.prototype.slice.call(container.querySelectorAll('.device-mock__slide'));
+      var i = 0, timer = null;
+      function show(next) {
+        frames[i].classList.remove('is-active');
+        i = next;
+        frames[i].classList.add('is-active');
+      }
+      return {
+        start: function () {
+          if (frames.length < 2 || timer) return;
+          timer = window.setInterval(function () { show((i + 1) % frames.length); }, intervalMs);
+        },
+        stop: function () {
+          if (timer) { window.clearInterval(timer); timer = null; }
+        },
+        index: function () { return i; }
+      };
+    }
+    var laptopRotator = makeScreenRotator(document.getElementById('mock-laptop'), 4200);
+    var phoneRotator = makeScreenRotator(document.getElementById('mock-phone'), 3300);
+
+    // ---------- Visualizador em tela cheia (clique numa tela do mockup) ----------
+    var lightbox = document.getElementById('device-lightbox');
+    var lbImg = document.getElementById('lb-img');
+    var lbDotsWrap = document.getElementById('lb-dots');
+    var lbPrevBtn = document.getElementById('lb-prev');
+    var lbNextBtn = document.getElementById('lb-next');
+
+    if (lightbox && lbImg) {
+      var lbImages = [];
+      var lbIndex = 0;
+      var lbLastFocused = null;
+
+      // as originais (sem a deformação de perspectiva) ficam mais nítidas
+      // e mais fáceis de ler numa visualização grande
+      var laptopPhotos = [
+        'img/Notbook/img1.png',
+        'img/Notbook/img2.png',
+        'img/Notbook/img4.png'
+      ];
+      var phonePhotos = [
+        'img/Celular/img1.jpeg',
+        'img/Celular/img2.jpeg',
+        'img/Celular/img3.jpeg',
+        'img/Celular/img4.jpeg',
+        'img/Celular/img5.jpeg'
+      ];
+
+      function renderLightbox() {
+        lbImg.src = lbImages[lbIndex];
+        Array.prototype.forEach.call(lbDotsWrap.children, function (dot, i) {
+          dot.classList.toggle('is-active', i === lbIndex);
+        });
+      }
+
+      function lbGoTo(i) {
+        lbIndex = (i + lbImages.length) % lbImages.length;
+        renderLightbox();
+      }
+
+      function openLightbox(images, startIndex, trigger) {
+        lbLastFocused = trigger;
+        lbImages = images;
+        lbIndex = startIndex || 0;
+        lbDotsWrap.innerHTML = '';
+        images.forEach(function (_, i) {
+          var dot = document.createElement('button');
+          dot.type = 'button';
+          dot.setAttribute('aria-label', 'Foto ' + (i + 1));
+          dot.addEventListener('click', function () { lbGoTo(i); });
+          lbDotsWrap.appendChild(dot);
+        });
+        renderLightbox();
+        lightbox.hidden = false;
+        laptopRotator.stop();
+        phoneRotator.stop();
+        lbPrevBtn.focus();
+      }
+
+      function closeLightbox() {
+        lightbox.hidden = true;
+        if (!modal.hidden) { laptopRotator.start(); phoneRotator.start(); }
+        if (lbLastFocused) lbLastFocused.focus();
+      }
+
+      var mockLaptop = document.getElementById('mock-laptop');
+      var mockPhone = document.getElementById('mock-phone');
+      if (mockLaptop) mockLaptop.addEventListener('click', function () {
+        openLightbox(laptopPhotos, laptopRotator.index(), mockLaptop);
+      });
+      if (mockPhone) mockPhone.addEventListener('click', function () {
+        openLightbox(phonePhotos, phoneRotator.index(), mockPhone);
+      });
+
+      lbPrevBtn.addEventListener('click', function () { lbGoTo(lbIndex - 1); });
+      lbNextBtn.addEventListener('click', function () { lbGoTo(lbIndex + 1); });
+      lightbox.addEventListener('click', function (event) {
+        if (event.target.closest('[data-lb-close]')) closeLightbox();
+      });
+      document.addEventListener('keydown', function (event) {
+        if (lightbox.hidden) return;
+        if (event.key === 'Escape') closeLightbox();
+        if (event.key === 'ArrowLeft') lbGoTo(lbIndex - 1);
+        if (event.key === 'ArrowRight') lbGoTo(lbIndex + 1);
+      });
+    }
+
     function openModal(trigger) {
       lastFocused = trigger;
       modal.hidden = false;
       document.body.style.overflow = 'hidden';
-      goToSlide(0);
+      if (slides.length) goToSlide(0);
       startCarousel();
+      laptopRotator.start();
+      phoneRotator.start();
       var closeBtn = modal.querySelector('.modal__close');
       if (closeBtn) closeBtn.focus();
     }
@@ -170,6 +290,8 @@
       modal.hidden = true;
       document.body.style.overflow = '';
       stopCarousel();
+      laptopRotator.stop();
+      phoneRotator.stop();
       if (lastFocused) lastFocused.focus();
     }
 
