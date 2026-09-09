@@ -171,6 +171,46 @@ a:focus-visible,button:focus-visible{
 .nav__link:hover{color:#FFF}
 .nav__link.is-active{color:#FFF;font-weight:600;border-bottom-color:#FFF}
 
+/* Seletor de idioma: um <details> nativo, sem JS — clique/toque na
+   bandeira atual abre um menu com as 4 bandeiras. Fica no header, ao
+   lado do botão de contato, e não dentro do menu de navegação — por
+   isso é um irmão de .nav dentro de .header-inner, não um filho. */
+.lang-switch{position:relative}
+.lang-switch summary{
+  list-style:none;cursor:pointer;
+  display:flex;align-items:center;
+  padding:6px 8px;border-radius:8px;
+  border:1px solid var(--line-dark);
+  transition:background .15s ease,border-color .15s ease;
+}
+.lang-switch summary::-webkit-details-marker{display:none}
+.lang-switch summary:hover{background:rgba(255,255,255,.08)}
+.lang-switch .fi{
+  font-size:16px;border-radius:2px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.2);
+}
+.lang-switch__menu{
+  position:absolute;top:calc(100% + 10px);right:0;
+  display:flex;flex-direction:column;gap:4px;
+  background:var(--dark-2);border:1px solid var(--line-dark);border-radius:10px;
+  padding:7px;box-shadow:0 16px 32px rgba(0,0,0,.5);
+  z-index:20;
+}
+.lang-switch__menu a{
+  display:flex;align-items:center;padding:5px;border-radius:6px;
+  transition:background .15s ease;
+}
+.lang-switch__menu a:hover{background:rgba(255,255,255,.08)}
+.lang-switch__menu a.is-active{box-shadow:inset 0 0 0 1.5px var(--teal)}
+
+/* Ordem fixa no header-inner (flex): links, botão de contato, bandeira
+   e só então o hambúrguer. Em telas grandes o hambúrguer fica invisível
+   (display:none), então na prática a bandeira acaba sendo o último
+   item; no mobile ela fica entre o botão e o hambúrguer, como pedido. */
+.header-cta{order:1}
+.lang-switch{order:2;margin-left:4px}
+.nav-toggle{order:3}
+
 .nav-toggle{
   display:none;
   width:42px;height:38px;
@@ -394,6 +434,23 @@ a:focus-visible,button:focus-visible{
 .blade[data-project="tourbyfoot"] .blade__photo{
   background-image:url("../img/projetos/tourbyfoot/card-cover.jpeg");
 }
+/* Em telas grandes a lâmina fica bem mais larga que alta, e a foto de
+   capa (retrato) cobria mal esse recorte. Nesse caso trocamos para uma
+   captura do próprio site, já em formato paisagem, com a cena principal
+   (Cristo Redentor + skyline) centralizada abaixo da barra de navegação. */
+@media (min-width:1081px){
+  .blade[data-project="tourbyfoot"] .blade__photo{
+    background-image:url("../img/assets/img-do-pj1.2.png");
+    /* "cover" cortava o alto e a base da imagem. Aqui a altura sempre
+       bate 100% com a lâmina (a imagem inteira, de cima a baixo, fica
+       visível) e só o excesso de largura é que sai do enquadramento —
+       a posição horizontal escolhe o Cristo Redentor e o Pão de Açúcar
+       como o trecho mostrado. */
+    background-size:auto 100%;
+    background-repeat:no-repeat;
+    background-position:right center;
+  }
+}
 /* véu neutro, para não tingir os cinzas */
 .blade__veil{
   position:absolute;inset:0;
@@ -499,10 +556,11 @@ a:focus-visible,button:focus-visible{
   border-left:1px solid var(--line-dark);padding-left:38px;
 }
 .band__text{font-size:14.5px;color:var(--dark-body)}
-.band__channels{margin-top:10px;font-size:14px;font-weight:600;display:flex;gap:8px;flex-wrap:wrap}
-.band__channels a{color:#FFF;transition:color .15s ease}
+.band__channels{margin-top:10px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.band__channels a{color:#FFF;transition:color .15s ease;display:inline-flex;align-items:center;gap:7px}
 .band__channels a:hover{color:var(--teal)}
 .band__channels span{color:var(--dark-body)}
+.channel-icon{width:15px;height:15px;flex:none;fill:currentColor}
 
 /* ---------- 12. Rodapé ---------- */
 .site-footer{background:var(--dark);color:var(--dark-body)}
@@ -673,6 +731,10 @@ a:focus-visible,button:focus-visible{
   .nav__link.is-active{border-bottom-color:var(--line-dark);color:#FFF}
   .nav__link:last-child{border-bottom:0}
 
+  /* com os links no menu escondido, sobra menos vizinhos no header —
+     aperta o espaçamento para a bandeira + botão + hambúrguer caberem */
+  .header-inner{gap:10px}
+
   .site-header{position:relative}
   .header-inner{position:relative}
   .nav-toggle{display:flex}
@@ -705,14 +767,17 @@ a:focus-visible,button:focus-visible{
   :root{--gutter:14px}
 
   /* topo mais fino (o escuro já vem do padrão) */
-  .header-inner{padding-top:10px;padding-bottom:10px;gap:10px}
+  .header-inner{padding-top:10px;padding-bottom:10px;gap:7px}
   .brand{gap:8px}
   .brand__glyph{width:22px;height:26px}
   .brand__name{font-size:17px}
   .brand__sub{font-size:8.5px;margin-top:2px}
-  .header-cta{padding:7px 13px;font-size:12px;gap:7px}
-  .header-cta .icon{width:13px;height:13px}
-  .nav-toggle{width:34px;height:30px;padding:0 8px}
+  /* o botão de contato cede espaço para a bandeira de idioma caber ao lado */
+  .header-cta{padding:6px 10px;font-size:11px;gap:5px}
+  .header-cta .icon{width:11px;height:11px}
+  .lang-switch summary{padding:4px 5px;border-radius:6px}
+  .lang-switch .fi{font-size:13px}
+  .nav-toggle{width:32px;height:30px;padding:0 7px}
   .nav__link{font-size:13.5px}
 
   .hero__copy{padding:24px var(--gutter) 34px;min-height:0}
@@ -820,16 +885,20 @@ a:focus-visible,button:focus-visible{
   .value__title{margin-bottom:3px;font-size:11px}
   .value__text{font-size:10px;line-height:1.45}
 
-  /* faixa de contato: os três blocos continuam na mesma linha */
+  /* faixa de contato: com o e-mail e o telefone ganhando ícone, as três
+     colunas espremidas na mesma linha não sobravam espaço para o texto
+     — cada bloco passa a ocupar a largura toda, empilhado. */
   .band-wrap{padding:0 0 12px}
-  .band{grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:10px;padding:10px 12px;border-radius:8px}
-  .band__head .eyebrow{margin-bottom:5px;font-size:8px}
-  .band__title{font-size:12px}
-  .band__middle{max-width:none;padding-left:10px;border-left:1px solid var(--line-dark)}
-  .band__text{font-size:9px;line-height:1.5}
-  .band__channels{margin-top:5px;font-size:8.5px;gap:5px}
-  .band .btn{padding:7px 11px;font-size:10px;gap:6px}
-  .band .icon{width:12px;height:12px}
+  .band{grid-template-columns:1fr;gap:12px;padding:18px 16px;border-radius:10px}
+  .band__head .eyebrow{margin-bottom:5px;font-size:9px}
+  .band__title{font-size:16px}
+  .band__middle{max-width:none;padding-left:0;border-left:0}
+  .band__text{font-size:11.5px;line-height:1.5}
+  .band__channels{margin-top:8px;font-size:11.5px;gap:8px;flex-direction:column;align-items:flex-start}
+  .band__channels span{display:none}
+  .channel-icon{width:12px;height:12px}
+  .band .btn{padding:9px 15px;font-size:12px;gap:6px}
+  .band .icon{width:13px;height:13px}
 
   /* rodapé: marca + frase em cima, navegação embaixo.
      Os três blocos numa linha só não cabem de forma legível a 375px. */

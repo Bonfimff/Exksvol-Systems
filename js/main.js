@@ -11,18 +11,21 @@
   var links = Array.prototype.slice.call(document.querySelectorAll('.nav__link'));
 
   /* ---------- 1. Menu no mobile ---------- */
+  // Os textos vêm de data-attributes no próprio botão (data-label-open /
+  // data-label-close), assim este arquivo serve às 4 versões de idioma
+  // sem precisar de nenhuma string traduzida aqui dentro.
   function closeNav() {
     if (!nav || !toggle) return;
     nav.classList.remove('is-open');
     toggle.setAttribute('aria-expanded', 'false');
-    toggle.setAttribute('aria-label', 'Abrir menu');
+    toggle.setAttribute('aria-label', toggle.dataset.labelOpen || 'Abrir menu');
   }
 
   function openNav() {
     if (!nav || !toggle) return;
     nav.classList.add('is-open');
     toggle.setAttribute('aria-expanded', 'true');
-    toggle.setAttribute('aria-label', 'Fechar menu');
+    toggle.setAttribute('aria-label', toggle.dataset.labelClose || 'Fechar menu');
   }
 
   if (toggle && nav) {
@@ -54,6 +57,18 @@
     // volta ao estado de desktop se a janela crescer
     window.addEventListener('resize', function () {
       if (window.innerWidth > 1080) closeNav();
+    });
+  }
+
+  /* ---------- 1b. Seletor de idioma ---------- */
+  // O <details> já abre/fecha sozinho ao clicar na bandeira; só falta
+  // fechar quando o visitante clica em qualquer outro lugar da página.
+  var langSwitch = document.querySelector('.lang-switch');
+  if (langSwitch) {
+    document.addEventListener('click', function (event) {
+      if (langSwitch.open && !langSwitch.contains(event.target)) {
+        langSwitch.open = false;
+      }
     });
   }
 
@@ -129,10 +144,11 @@
     // Projetos sem foto rotativa (como o mockup de dispositivos) não têm
     // #modal-dots no HTML, então isso só roda quando há slide e wrapper.
     if (dotsWrap) {
+      var photoLabel = dotsWrap.dataset.photoLabel || 'Foto';
       slides.forEach(function (slide, i) {
         var dot = document.createElement('button');
         dot.type = 'button';
-        dot.setAttribute('aria-label', 'Foto ' + (i + 1));
+        dot.setAttribute('aria-label', photoLabel + ' ' + (i + 1));
         if (i === 0) dot.classList.add('is-active');
         dot.addEventListener('click', function () { goToSlide(i); });
         dotsWrap.appendChild(dot);
@@ -201,18 +217,20 @@
       var lbLastFocused = null;
 
       // as originais (sem a deformação de perspectiva) ficam mais nítidas
-      // e mais fáceis de ler numa visualização grande
+      // e mais fáceis de ler numa visualização grande.
+      // Caminhos absolutos a partir da raiz do site: assim funcionam
+      // igual em /, /en/, /es/ e /de/, sem precisar reescrever nada.
       var laptopPhotos = [
-        'img/Notbook/img1.png',
-        'img/Notbook/img2.png',
-        'img/Notbook/img4.png'
+        '/img/Notbook/img1.png',
+        '/img/Notbook/img2.png',
+        '/img/Notbook/img4.png'
       ];
       var phonePhotos = [
-        'img/Celular/img1.jpeg',
-        'img/Celular/img2.jpeg',
-        'img/Celular/img3.jpeg',
-        'img/Celular/img4.jpeg',
-        'img/Celular/img5.jpeg'
+        '/img/Celular/img1.jpeg',
+        '/img/Celular/img2.jpeg',
+        '/img/Celular/img3.jpeg',
+        '/img/Celular/img4.jpeg',
+        '/img/Celular/img5.jpeg'
       ];
 
       function renderLightbox() {
@@ -232,10 +250,11 @@
         lbImages = images;
         lbIndex = startIndex || 0;
         lbDotsWrap.innerHTML = '';
+        var photoLabel = lbDotsWrap.dataset.photoLabel || 'Foto';
         images.forEach(function (_, i) {
           var dot = document.createElement('button');
           dot.type = 'button';
-          dot.setAttribute('aria-label', 'Foto ' + (i + 1));
+          dot.setAttribute('aria-label', photoLabel + ' ' + (i + 1));
           dot.addEventListener('click', function () { lbGoTo(i); });
           lbDotsWrap.appendChild(dot);
         });
@@ -312,11 +331,13 @@
     carousel.addEventListener('mouseleave', function () { if (!modal.hidden) startCarousel(); });
 
     if (moreBtn) {
+      var moreLabel = moreBtn.dataset.labelMore || moreBtn.textContent;
+      var lessLabel = moreBtn.dataset.labelLess || moreLabel;
       moreBtn.addEventListener('click', function () {
         var more = modal.querySelector('#modal-more-content');
         var expanded = !more.hidden;
         more.hidden = expanded;
-        moreBtn.textContent = expanded ? 'Ver mais sobre esse projeto' : 'Ver menos';
+        moreBtn.textContent = expanded ? moreLabel : lessLabel;
       });
     }
   }
