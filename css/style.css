@@ -230,7 +230,7 @@ a:focus-visible,button:focus-visible{
   position:absolute;inset:0;
   background-size:cover;background-position:center;
 }
-.visual--hero .visual__photo{background-image:url("../img/assets/Painel.jpeg")}
+.visual--hero .visual__photo{background-image:url("../img/assets/Painel.png")}
 .visual--work .visual__photo{background-image:url("../img/work.jpg")}
 
 .glow{
@@ -268,11 +268,9 @@ a:focus-visible,button:focus-visible{
 
 .visual__mark{
   position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  display:flex;align-items:center;gap:12px;opacity:.5;
+  display:flex;align-items:center;opacity:.5;
 }
-.visual__mark svg{width:37px;height:44px}
-.visual__mark svg path{fill:var(--teal)}
-.visual__mark span{color:#FFF;font-size:26px;font-weight:700;letter-spacing:-.03em}
+.visual__mark img{height:44px;width:auto;display:block}
 
 /* Na referência o chevron ultrapassa a foto e avança sobre o fundo claro. */
 .visual--about{overflow:visible}
@@ -469,8 +467,12 @@ a:focus-visible,button:focus-visible{
   letter-spacing:-.04em;
   color:transparent;
   -webkit-text-stroke:1px rgba(255,255,255,.42);
+  filter:drop-shadow(0 1px 4px rgba(0,0,0,.55));
 }
-.blade__name{margin-top:12px;font-size:19px;font-weight:700;letter-spacing:-.02em}
+.blade__name{
+  margin-top:12px;font-size:19px;font-weight:700;letter-spacing:-.02em;
+  text-shadow:0 1px 6px rgba(0,0,0,.65);
+}
 
 .blade__tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
 .blade__tags:empty{display:none}
@@ -485,6 +487,7 @@ a:focus-visible,button:focus-visible{
   display:inline-flex;align-items:center;gap:8px;
   margin-top:18px;
   font-size:13.5px;font-weight:600;color:#FFF;
+  text-shadow:0 1px 6px rgba(0,0,0,.65);
 }
 .blade__go svg{width:15px;height:15px;flex:none}
 .blade__go path{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -496,8 +499,8 @@ a:focus-visible,button:focus-visible{
 .blade:hover .blade__veil{
   background:linear-gradient(180deg,
     rgba(0,0,0,.05) 0%,
-    rgba(0,0,0,.22) 60%,
-    rgba(0,0,0,.42) 100%);
+    rgba(0,0,0,.38) 55%,
+    rgba(0,0,0,.74) 100%);
 }
 .blade:focus-visible{outline:2px solid var(--teal);outline-offset:-4px}
 
