@@ -140,11 +140,7 @@ a:focus-visible,button:focus-visible{
 
 /* ---------- 4. Marca ---------- */
 .brand{display:inline-flex;align-items:center;gap:11px;color:var(--ink)}
-.brand__glyph{width:31px;height:37px;flex:none}
-.brand__glyph path{fill:var(--teal)}
-.brand__names{display:flex;flex-direction:column;line-height:1}
-.brand__name{font-size:23px;font-weight:700;letter-spacing:-.03em}
-.brand__sub{font-size:11px;font-weight:500;letter-spacing:.02em;margin-top:3px;opacity:.62}
+.brand__logo{height:34px;width:auto;display:block}
 
 /* ---------- 5. Topo (sempre escuro) ---------- */
 .site-header{
@@ -769,9 +765,7 @@ a:focus-visible,button:focus-visible{
   /* topo mais fino (o escuro já vem do padrão) */
   .header-inner{padding-top:10px;padding-bottom:10px;gap:7px}
   .brand{gap:8px}
-  .brand__glyph{width:22px;height:26px}
-  .brand__name{font-size:17px}
-  .brand__sub{font-size:8.5px;margin-top:2px}
+  .brand__logo{height:24px}
   /* o botão de contato cede espaço para a bandeira de idioma caber ao lado */
   .header-cta{padding:6px 10px;font-size:11px;gap:5px}
   .header-cta .icon{width:11px;height:11px}
@@ -912,11 +906,46 @@ a:focus-visible,button:focus-visible{
   .site-footer .brand{grid-area:marca}
   .footer-claim{grid-area:frase}
   .footer-nav{grid-area:menu}
-  .site-footer .brand__glyph{width:18px;height:21px}
-  .site-footer .brand__name{font-size:14px}
-  .site-footer .brand__sub{font-size:7.5px}
+  .site-footer .brand__logo{height:19px}
   .footer-claim{max-width:22ch;padding-left:10px;border-left:1px solid var(--line-dark);font-size:9px;line-height:1.45}
   .footer-nav{gap:7px}
   .footer-nav a{font-size:9px}
   .footer-bottom{padding:8px 0;font-size:8.5px}
+}
+
+/* ---------- 14. Páginas internas de solução ---------- */
+.page-hero{background:var(--dark);padding:48px 0 56px}
+.page-hero__inner{max-width:640px}
+.back-link{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-bottom:22px;font-size:13.5px;font-weight:600;
+  color:var(--dark-body);transition:color .15s ease;
+}
+.back-link:hover{color:#FFF}
+.back-link .icon path{stroke:currentColor}
+.page-hero .eyebrow{margin-bottom:16px}
+.page-hero__title{color:#FFF;font-size:clamp(28px,3.4vw,42px);font-weight:800;line-height:1.15}
+.page-hero__lead{margin:18px 0 28px;font-size:16px;color:var(--dark-body);max-width:56ch}
+
+.solution-blocks{background:var(--paper);padding:56px 0}
+.solution-blocks__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px}
+.solution-block h2{font-size:18px;font-weight:700;margin-bottom:12px}
+.solution-block p{font-size:14.5px;line-height:1.68;color:var(--body)}
+
+.solution-related{background:var(--paper);padding:0 0 60px}
+.solution-related .eyebrow{margin-bottom:18px}
+.solution-related .section-title{font-size:clamp(22px,2.2vw,28px)}
+
+@media (max-width:1080px){
+  .solution-blocks__grid{grid-template-columns:1fr;gap:26px}
+  .page-hero{padding:40px 0 44px}
+}
+
+@media (max-width:640px){
+  .page-hero{padding:28px 0 36px}
+  .page-hero__title{font-size:25px}
+  .page-hero__lead{font-size:13.5px;margin:12px 0 20px}
+  .back-link{font-size:12px;margin-bottom:16px}
+  .solution-blocks{padding:36px 0}
+  .solution-related{padding:0 0 40px}
 }
